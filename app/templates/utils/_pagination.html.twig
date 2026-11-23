@@ -1,0 +1,18 @@
+{% if totalPages > 1 %}
+    <div class="join my-4">
+        {% if currentPage > 1 %}
+            <a href="{{ path('app_coaster_index', app.request.query.all|merge({'page': currentPage - 1})) }}" class="join-item btn btn-sm">«</a>
+        {% endif %}
+
+        {% for p in 1..totalPages %}
+            <a href="{{ path('app_coaster_index', app.request.query.all|merge({'page': p})) }}"
+               class="join-item btn btn-sm {{ p == currentPage ? 'btn-active btn-primary' : '' }}">
+                {{ p }}
+            </a>
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ path('app_coaster_index', app.request.query.all|merge({'page': currentPage + 1})) }}" class="join-item btn btn-sm">»</a>
+        {% endif %}
+    </div>
+{% endif %}

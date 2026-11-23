@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Coaster index{% endblock %}
+
+{% block body %}
+    <h1>Coaster index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>MaxSpeed</th>
+                <th>Length</th>
+                <th>MaxHeight</th>
+                <th>Operating</th>
+                <th>Parc</th>
+                <th>Catégories</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for coaster in coasters %}
+            <tr>
+                <td>{{ coaster.id }}</td>
+                <td>{{ coaster.name }}</td>
+                <td>{{ coaster.maxSpeed }}</td>
+                <td>{{ coaster.length }}</td>
+                <td>{{ coaster.maxHeight }}</td>
+                <td>{{ coaster.operating ? 'Yes' : 'No' }}</td>
+                <td>{{ coaster.park ? coaster.park.name : 'Aucun' }}</td>
+                <td>
+                    {% for category in coaster.categories %}
+                        <span class="badge" style="background-color: {{ category.color }}">{{ category.name }}</span>
+                    {% else %}
+                        <span>Aucune</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_coaster_show', {'id': coaster.id}) }}">show</a>
+                    <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ include('utils/_pagination.html.twig') }}
+
+    <a href="{{ path('app_coaster_new') }}">Create new</a>
+{% endblock %}

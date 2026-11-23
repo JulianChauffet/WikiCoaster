@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Park index{% endblock %}
+
+{% block body %}
+    <h1>Park index</h1>
+
+    <form method="get" action="{{ path('app_coaster_index') }}" class="flex flex-wrap items-end gap-4 mb-6 bg-base-100 p-4 rounded-box">
+        <div class="form-control">
+            <label class="label" for="park"><span class="label-text">Parc</span></label>
+            <select name="park" id="park" class="select select-bordered select-sm">
+                <option value="">Tous les parcs</option>
+                {% for park in parks %}
+                    <option value="{{ park.id }}" {{ selectedPark == park.id ? 'selected' : '' }}>
+                        {{ park.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-control">
+            <label class="label" for="category"><span class="label-text">Catégorie</span></label>
+            <select name="category" id="category" class="select select-bordered select-sm">
+                <option value="">Toutes les catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {{ selectedCategory == category.id ? 'selected' : '' }}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-funnel"></i> Filtrer
+            </button>
+            <a href="{{ path('app_coaster_index') }}" class="btn btn-ghost btn-sm">
+                Réinitialiser
+            </a>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>OpeningYear</th>
+                <th>Park</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for park in parks %}
+            <tr>
+                <td>{{ park.id }}</td>
+                <td>{{ park.name }}</td>
+                <td>{{ park.country }}</td>
+                <td>{{ park.openingYear }}</td>
+                <td>{{ park.coasters|length }}</td>
+                <td>
+                    <a href="{{ path('app_park_show', {'id': park.id}) }}">show</a>
+                    <a href="{{ path('app_park_edit', {'id': park.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_park_new') }}">Create new</a>
+{% endblock %}
